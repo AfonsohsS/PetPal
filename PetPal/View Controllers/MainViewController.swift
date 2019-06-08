@@ -29,6 +29,7 @@
 */
 
 import UIKit
+import CoreData
 
 
 class MainViewController: UIViewController {
@@ -55,11 +56,14 @@ class MainViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        do {
-            friends = try context.fetch(Friend.fetchRequest())
-        } catch let error as NSError {
-            print("Error Fetching Friends: \(error), \(error.userInfo)")
-        }
+        
+        refresh()
+        
+//        do {
+//            friends = try context.fetch(Friend.fetchRequest())
+//        } catch let error as NSError {
+//            print("Error Fetching Friends: \(error), \(error.userInfo)")
+//        }
         showEditButton()
     }
 
@@ -112,12 +116,23 @@ class MainViewController: UIViewController {
 		collectionView?.insertItems(at: [index])
 	}
 	
-	// MARK:- Edit Button
+	// MARK:- Private Methods
+    
+    //Edit Button
 	private func showEditButton() {
 		if friends.count > 0 {
 			navigationItem.leftBarButtonItem = editButtonItem
 		}
 	}
+    
+    //Refresh
+    private func refresh() {
+        do {
+            friends = try context.fetch(Friend.fetchRequest())
+        } catch let error as NSError {
+            print("Error Fetching Data: \(error), \(error.userInfo)")
+        }
+    }
 }
 
 //MARK: - Collection View Delegates
@@ -166,18 +181,34 @@ extension MainViewController:UISearchBarDelegate {
 		guard let query = searchBar.text else {
 			return
 		}
-		isFiltered = true
-		filtered = friends.filter({(friend) -> Bool in
-            return friend.name!.contains(query)
-//            return txt.contains(query)
-		})
+        
+        let request: NSFetchRequest<Friend> = Friend.fetchRequest()
+        //The another way
+//        let request = Friend.fetchRequest() as NSFetchRequest<Friend>
+        
+        request.predicate = NSPredicate(format: "name CONTAINS[cd] %@", query)
+        
+        do {
+            friends = try context.fetch(request)
+        } catch let error as NSError {
+            print("Error Fetch Friends: \(error), \(error.userInfo)")
+        }
+        
+        //Commented to use FetchRequest
+//		isFiltered = true
+//		filtered = friends.filter({(friend) -> Bool in
+//            return friend.name!.contains(query)
+//            //return txt.contains(query)
+//		})
 		searchBar.resignFirstResponder()
 		collectionView.reloadData()
 	}
 	
 	func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
-		isFiltered = false
-		filtered.removeAll()
+        self.refresh()
+        //Replaced for refresh()
+//		isFiltered = false
+//		filtered.removeAll()
 		searchBar.text = nil
 		searchBar.resignFirstResponder()
 		collectionView.reloadData()
