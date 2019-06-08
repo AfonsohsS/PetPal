@@ -88,8 +88,11 @@ class MainViewController: UIViewController {
         //Instance Core Data Entity
         let friend = Friend(entity: Friend.entity(), insertInto: context)
         
-        //Relationship Core Data Attribute with Class Data Model Property
+        //Relationship between Core Data Attribute with Class Data Model Property
         friend.name = data.name
+        friend.address = data.address
+        friend.dob = data.dob as NSDate
+        friend.eyeColor = data.eyeColor
         
         //Save context
         appDelegate.saveContext()
@@ -123,7 +126,13 @@ extension MainViewController: UICollectionViewDelegate, UICollectionViewDataSour
 	func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
 		let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "FriendCell", for: indexPath) as! FriendCell
 		let friend = isFiltered ? filtered[indexPath.row] : friends[indexPath.row]
+        
+        //Fill in the cell fields
 		cell.nameLabel.text = friend.name!
+        cell.addressLabel.text = friend.address!
+        cell.ageLabel.text = "Age: \(friend.age)"
+        cell.eyeColorView.backgroundColor = friend.eyeColor as? UIColor
+        
 		if let image = images[friend.name!] {
 			cell.pictureImageView.image = image
 		}
