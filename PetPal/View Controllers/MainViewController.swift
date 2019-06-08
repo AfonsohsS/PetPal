@@ -42,8 +42,10 @@ class MainViewController: UIViewController {
 	private var friendPets = [String:[String]]()
 	private var selected:IndexPath!
 	private var picker = UIImagePickerController()
-	private var images = [String:UIImage]()
+//    private var images = [String:UIImage]()
 
+    
+    //MARK: - Life Cycle
 	override func viewDidLoad() {
 		super.viewDidLoad()
 		picker.delegate = self
@@ -56,12 +58,8 @@ class MainViewController: UIViewController {
         } catch let error as NSError {
             print("Error Fetching Friends: \(error), \(error.userInfo)")
         }
+        showEditButton()
     }
-
-	override func didReceiveMemoryWarning() {
-		super.didReceiveMemoryWarning()
-		// Dispose of any resources that can be recreated.
-	}
 
 	// MARK:- Navigation
 	override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -102,13 +100,17 @@ class MainViewController: UIViewController {
 //        while friends.contains(friend.name) {
 //            friend = FriendData()
 //        }
-		friends.append(friend)
+        
+        friends.append(friend)
+        
+        showEditButton()
+        
         
 		let index = IndexPath(row:friends.count - 1, section:0)
 		collectionView?.insertItems(at: [index])
 	}
 	
-	// MARK:- Private Methods
+	// MARK:- Edit Button
 	private func showEditButton() {
 		if friends.count > 0 {
 			navigationItem.leftBarButtonItem = editButtonItem
@@ -133,9 +135,16 @@ extension MainViewController: UICollectionViewDelegate, UICollectionViewDataSour
         cell.ageLabel.text = "Age: \(friend.age)"
         cell.eyeColorView.backgroundColor = friend.eyeColor as? UIColor
         
-		if let image = images[friend.name!] {
-			cell.pictureImageView.image = image
-		}
+//        if let image = images[friend.name!] {
+//            cell.pictureImageView.image = image
+//        }
+        
+        if let data = friend.photo as Data? {
+            cell.pictureImageView.image = UIImage(data: data)
+        } else {
+            cell.pictureImageView.image = UIImage(named: "person-placeholder")
+        }
+        
 		return cell
 	}
 	
@@ -176,12 +185,18 @@ extension MainViewController:UISearchBarDelegate {
 // Image Picker Delegates
 extension MainViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
 	func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
-// Local variable inserted by Swift 4.2 migrator.
-let info = convertFromUIImagePickerControllerInfoKeyDictionary(info)
+
+        // Local variable inserted by Swift 4.2 migrator.
+        let info = convertFromUIImagePickerControllerInfoKeyDictionary(info)
 
 		let image = info[convertFromUIImagePickerControllerInfoKey(UIImagePickerController.InfoKey.originalImage)] as! UIImage
 		let friend = isFiltered ? filtered[selected.row] : friends[selected.row]
-		images[friend.name!] = image
+//        images[friend.name!] = image
+        
+        friend.photo = image.pngData() as NSData?
+        
+        appDelegate.saveContext()
+        
 		collectionView?.reloadItems(at: [selected])
 		picker.dismiss(animated: true, completion: nil)
 	}
