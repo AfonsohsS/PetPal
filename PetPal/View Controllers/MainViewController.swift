@@ -32,10 +32,12 @@ import UIKit
 
 
 class MainViewController: UIViewController {
+    
 	@IBOutlet private weak var collectionView:UICollectionView!
     
     let appDelegate = UIApplication.shared.delegate as! AppDelegate
 	
+    //MARK: - Properties
 	private var friends = [Friend]()
 	private var filtered = [Friend]()
 	private var isFiltered = false
@@ -118,7 +120,7 @@ class MainViewController: UIViewController {
 	}
 }
 
-// Collection View Delegates
+//MARK: - Collection View Delegates
 extension MainViewController: UICollectionViewDelegate, UICollectionViewDataSource {
 	func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
 		let count = isFiltered ? filtered.count : friends.count
@@ -158,7 +160,7 @@ extension MainViewController: UICollectionViewDelegate, UICollectionViewDataSour
 	}
 }
 
-// Search Bar Delegate
+//MARK: - Search Bar Delegate
 extension MainViewController:UISearchBarDelegate {
 	func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
 		guard let query = searchBar.text else {
@@ -182,7 +184,7 @@ extension MainViewController:UISearchBarDelegate {
 	}
 }
 
-// Image Picker Delegates
+//MARK: - Image Picker Delegates
 extension MainViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
 	func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
 
