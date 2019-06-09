@@ -127,8 +127,15 @@ class MainViewController: UIViewController {
     
     //Refresh
     private func refresh() {
+        
+        //Sorting the Data by Friend.name
+        let request: NSFetchRequest<Friend> = Friend.fetchRequest()
+        let sort = NSSortDescriptor(keyPath: \Friend.name, ascending: true)
+        request.sortDescriptors = [sort]
+        
+        //Call the request
         do {
-            friends = try context.fetch(Friend.fetchRequest())
+            friends = try context.fetch(request)
         } catch let error as NSError {
             print("Error Fetching Data: \(error), \(error.userInfo)")
         }
