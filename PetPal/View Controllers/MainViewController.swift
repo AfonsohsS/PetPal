@@ -46,6 +46,7 @@ class MainViewController: UIViewController {
 	private var selected:IndexPath!
 	private var picker = UIImagePickerController()
 //    private var images = [String:UIImage]()
+    private var query = ""
 
     
     //MARK: - Life Cycle
@@ -107,13 +108,15 @@ class MainViewController: UIViewController {
 //            friend = FriendData()
 //        }
         
-        friends.append(friend)
+        //Remove to sort data when add it
+//      friends.append(friend)
+//        let index = IndexPath(row:friends.count - 1, section:0)
+//        collectionView?.insertItems(at: [index])
         
+        //With this code we sort the data every time we add a new data
+        refresh()
+        collectionView.reloadData()
         showEditButton()
-        
-        
-		let index = IndexPath(row:friends.count - 1, section:0)
-		collectionView?.insertItems(at: [index])
 	}
 	
 	// MARK:- Private Methods
@@ -130,7 +133,18 @@ class MainViewController: UIViewController {
         
         //Sorting the Data by Friend.name
         let request: NSFetchRequest<Friend> = Friend.fetchRequest()
-        let sort = NSSortDescriptor(keyPath: \Friend.name, ascending: true)
+        
+        //If query is not empty... Aplly the filter
+        if !query.isEmpty {
+            request.predicate = NSPredicate(format: "name CONTAINS[cd] %@", query)
+        }
+        
+        //Commented on this line to add a case-sensitive sort data
+//        let sort = NSSortDescriptor(keyPath: \Friend.name, ascending: true)
+        
+        //With this #selector we call NSString's Method not to consider case-sensitive
+        let sort = NSSortDescriptor(key: #keyPath(Friend.name), ascending: true, selector: #selector(NSString.caseInsensitiveCompare(_:)))
+        
         request.sortDescriptors = [sort]
         
         //Call the request
@@ -185,21 +199,20 @@ extension MainViewController: UICollectionViewDelegate, UICollectionViewDataSour
 //MARK: - Search Bar Delegate
 extension MainViewController:UISearchBarDelegate {
 	func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
-		guard let query = searchBar.text else {
+		guard let txt = searchBar.text else {
 			return
 		}
+        self.query = txt
         
-        let request: NSFetchRequest<Friend> = Friend.fetchRequest()
-        //The another way
-//        let request = Friend.fetchRequest() as NSFetchRequest<Friend>
+        self.refresh()
         
-        request.predicate = NSPredicate(format: "name CONTAINS[cd] %@", query)
-        
-        do {
-            friends = try context.fetch(request)
-        } catch let error as NSError {
-            print("Error Fetch Friends: \(error), \(error.userInfo)")
-        }
+//        let request: NSFetchRequest<Friend> = Friend.fetchRequest()
+//        request.predicate = NSPredicate(format: "name CONTAINS[cd] %@", query)
+//        do {
+//            friends = try context.fetch(request)
+//        } catch let error as NSError {
+//            print("Error Fetch Friends: \(error), \(error.userInfo)")
+//        }
         
         //Commented to use FetchRequest
 //		isFiltered = true
@@ -212,12 +225,15 @@ extension MainViewController:UISearchBarDelegate {
 	}
 	
 	func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
-        self.refresh()
+        self.query = ""
+        
         //Replaced for refresh()
 //		isFiltered = false
 //		filtered.removeAll()
 		searchBar.text = nil
 		searchBar.resignFirstResponder()
+        
+        self.refresh()
 		collectionView.reloadData()
 	}
 }
