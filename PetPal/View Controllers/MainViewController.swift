@@ -36,9 +36,10 @@ class MainViewController: UIViewController {
     
 	@IBOutlet private weak var collectionView:UICollectionView!
     
-    let appDelegate = UIApplication.shared.delegate as! AppDelegate
-	
+    
     //MARK: - Properties
+    
+    let appDelegate = UIApplication.shared.delegate as! AppDelegate
     
     //Commented friends Array to replce it to fetchedRC
 //	private var friends = [Friend]()
@@ -80,11 +81,11 @@ class MainViewController: UIViewController {
                 
                 //Replace Array for fetchedRC.object(at:)
 //				let friend = friends[index.row]
-				if let pets = friendPets[friend.name!] {
+				if let pets = friendPets[friend.name] {
 					pvc.pets = pets
 				}
 				pvc.petAdded = {
-					self.friendPets[friend.name!] = pvc.pets
+					self.friendPets[friend.name] = pvc.pets
 				}
 			}
 		}
@@ -102,7 +103,7 @@ class MainViewController: UIViewController {
         //Relationship between Core Data Attribute with Class Data Model Property
         friend.name = data.name
         friend.address = data.address
-        friend.dob = data.dob as NSDate
+        friend.dob = data.dob as Date
         friend.eyeColor = data.eyeColor
         
         //Save context
@@ -208,8 +209,8 @@ extension MainViewController: UICollectionViewDelegate, UICollectionViewDataSour
 //		let friend = isFiltered ? filtered[indexPath.row] : friends[indexPath.row]
         
         //Fill in the cell fields
-		cell.nameLabel.text = friend.name!
-        cell.addressLabel.text = friend.address!
+		cell.nameLabel.text = friend.name
+        cell.addressLabel.text = friend.address
         cell.ageLabel.text = "Age: \(friend.age)"
         cell.eyeColorView.backgroundColor = friend.eyeColor as? UIColor
         
@@ -293,7 +294,7 @@ extension MainViewController: UIImagePickerControllerDelegate, UINavigationContr
 //		let friend = isFiltered ? filtered[selected.row] : friends[selected.row]
 //        images[friend.name!] = image
         
-        friend.photo = image.pngData() as NSData?
+        friend.photo = image.pngData() as Data?
         
         appDelegate.saveContext()
         

@@ -29,21 +29,38 @@
 */
 
 import UIKit
+import CoreData
 
 class PetsViewController: UIViewController {
 	@IBOutlet private weak var collectionView:UICollectionView!
 	
-	var petAdded:(()->Void)!
-	var pets = [String]()
+    //MARK: - Properties
+    
+//	var petAdded:(()->Void)!
+//	var pets = [String]()
 
 	private var isFiltered = false
 	private var filtered = [String]()
 	private var selected:IndexPath!
 	private var picker = UIImagePickerController()
+    
+    //CoreData Properties
+    let appDelegate = UIApplication.shared.delegate as! AppDelegate
+    var friends: Friend!
+    var fetchedRC: NSFetchedResultsController<Pet>!
+    var query = ""
+    
+    var formatted = DateFormatter()
+    
+    
+    //MARK: - Life Cycle
 
     override func viewDidLoad() {
         super.viewDidLoad()
 		picker.delegate = self
+        formatted.dateFormat = "d MMM YYYY"
+        
+        
     }
 
     override func didReceiveMemoryWarning() {

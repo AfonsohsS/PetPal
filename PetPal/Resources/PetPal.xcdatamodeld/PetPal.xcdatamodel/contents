@@ -6,15 +6,17 @@
         <attribute name="eyeColor" optional="YES" attributeType="Transformable"/>
         <attribute name="name" attributeType="String"/>
         <attribute name="photo" optional="YES" attributeType="Binary" allowsExternalBinaryDataStorage="YES"/>
+        <relationship name="pets" toMany="YES" deletionRule="Nullify" destinationEntity="Pet" inverseName="owner" inverseEntity="Pet"/>
     </entity>
-    <entity name="Pets" representedClassName="Pets" syncable="YES" codeGenerationType="class">
+    <entity name="Pet" representedClassName=".Pet" syncable="YES">
         <attribute name="dob" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
         <attribute name="kind" attributeType="String"/>
         <attribute name="name" attributeType="String"/>
         <attribute name="picture" optional="YES" attributeType="Binary" allowsExternalBinaryDataStorage="YES"/>
+        <relationship name="owner" maxCount="1" deletionRule="Nullify" destinationEntity="Friend" inverseName="pets" inverseEntity="Friend"/>
     </entity>
     <elements>
-        <element name="Friend" positionX="-54" positionY="-9" width="128" height="120"/>
-        <element name="Pets" positionX="-54" positionY="27" width="128" height="103"/>
+        <element name="Friend" positionX="-54" positionY="-9" width="128" height="133"/>
+        <element name="Pet" positionX="149.94140625" positionY="64.28515625" width="128" height="118"/>
     </elements>
 </model>
