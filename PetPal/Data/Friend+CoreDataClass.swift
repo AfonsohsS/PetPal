@@ -9,6 +9,7 @@
 
 import Foundation
 import CoreData
+import UIKit
 
 
 public class Friend: NSManagedObject {
@@ -21,6 +22,27 @@ public class Friend: NSManagedObject {
         }
         
         return 0
+    }
+    
+    var eyeColorString: String {
+        guard let color = eyeColor as? UIColor else {
+            return "No Color"
+        }
+        
+        switch color {
+        case .black:
+            return "Black"
+        case .blue:
+            return "Blue"
+        case .brown:
+            return "Brown"
+        case .green:
+            return "Green"
+        case .gray:
+            return "Gray"
+        default:
+            return "Unknown"
+        }
     }
 
 }

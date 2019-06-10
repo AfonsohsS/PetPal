@@ -7,7 +7,14 @@
         <attribute name="name" attributeType="String"/>
         <attribute name="photo" optional="YES" attributeType="Binary" allowsExternalBinaryDataStorage="YES"/>
     </entity>
+    <entity name="Pets" representedClassName="Pets" syncable="YES" codeGenerationType="class">
+        <attribute name="dob" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
+        <attribute name="kind" attributeType="String"/>
+        <attribute name="name" attributeType="String"/>
+        <attribute name="picture" optional="YES" attributeType="Binary" allowsExternalBinaryDataStorage="YES"/>
+    </entity>
     <elements>
         <element name="Friend" positionX="-54" positionY="-9" width="128" height="120"/>
+        <element name="Pets" positionX="-54" positionY="27" width="128" height="103"/>
     </elements>
 </model>
