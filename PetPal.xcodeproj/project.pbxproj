@@ -66,10 +66,10 @@
 		1446404522AABF2B00F419E5 /* SubClassData */ = {
 			isa = PBXGroup;
 			children = (
-				1423665222AEB5A9000F0E5F /* Friend+CoreDataProperties.swift */,
 				1423665322AEB5A9000F0E5F /* Pet+CoreDataClass.swift */,
 				1423665422AEB5A9000F0E5F /* Pet+CoreDataProperties.swift */,
 				1446404122AABEC400F419E5 /* Friend+CoreDataClass.swift */,
+				1423665222AEB5A9000F0E5F /* Friend+CoreDataProperties.swift */,
 			);
 			name = SubClassData;
 			path = ../..;

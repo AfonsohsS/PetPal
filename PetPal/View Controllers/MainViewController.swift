@@ -46,7 +46,7 @@ class MainViewController: UIViewController {
     private var fetchedRC: NSFetchedResultsController<Friend>!
 	private var filtered = [Friend]()
 	private var isFiltered = false
-	private var friendPets = [String:[String]]()
+//	private var friendPets = [String:[String]]()
 	private var selected:IndexPath!
 	private var picker = UIImagePickerController()
 //    private var images = [String:UIImage]()
@@ -81,12 +81,15 @@ class MainViewController: UIViewController {
                 
                 //Replace Array for fetchedRC.object(at:)
 //				let friend = friends[index.row]
-				if let pets = friendPets[friend.name] {
-					pvc.pets = pets
-				}
-				pvc.petAdded = {
-					self.friendPets[friend.name] = pvc.pets
-				}
+                
+                pvc.friend = friend
+                
+//				if let pets = friendPets[friend.name] {
+//					pvc.pets = pets
+//				}
+//				pvc.petAdded = {
+//					self.friendPets[friend.name] = pvc.pets
+//				}
 			}
 		}
 	}
@@ -142,7 +145,7 @@ class MainViewController: UIViewController {
     //Refresh
     private func refresh() {
         
-        //Sorting the Data by Friend.name
+        //Fetch and Sorting the Data by Friend.name
         let request: NSFetchRequest<Friend> = Friend.fetchRequest()
         
         //If query is not empty... Aplly the filter
@@ -204,6 +207,7 @@ extension MainViewController: UICollectionViewDelegate, UICollectionViewDataSour
 	func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
 		let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "FriendCell", for: indexPath) as! FriendCell
         
+        //Take the object in the IndexPath
         let friend = fetchedRC.object(at: indexPath)
         
 //		let friend = isFiltered ? filtered[indexPath.row] : friends[indexPath.row]
