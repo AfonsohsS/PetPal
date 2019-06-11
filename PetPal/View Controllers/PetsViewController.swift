@@ -103,6 +103,9 @@ class PetsViewController: UIViewController {
         pet.kind = data.kind
         pet.dob = data.dob as Date
         
+        //Don't forget to put this relationship.
+        pet.owner = friend
+        
         //Save context
         appDelegate.saveContext()
         
