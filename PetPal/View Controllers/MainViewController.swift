@@ -57,6 +57,7 @@ class MainViewController: UIViewController {
 	override func viewDidLoad() {
 		super.viewDidLoad()
 		picker.delegate = self
+        
 	}
     
     override func viewWillAppear(_ animated: Bool) {

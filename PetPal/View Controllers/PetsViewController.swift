@@ -31,7 +31,7 @@
 import UIKit
 import CoreData
 
-class PetsViewController: UIViewController {
+class PetsViewController: UIViewController, UIGestureRecognizerDelegate {
 	@IBOutlet private weak var collectionView:UICollectionView!
 	
     //MARK: - Properties
@@ -59,11 +59,14 @@ class PetsViewController: UIViewController {
         super.viewDidLoad()
 		picker.delegate = self
         formatter.dateFormat = "d MMM YYYY"
+        pressToDelete()
     }
+    
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         refresh()
+        showEditButton()
     }
 
     // MARK:- Private Methods
@@ -86,6 +89,17 @@ class PetsViewController: UIViewController {
             try fetchedRC.performFetch()
         } catch let error as NSError {
             print("Error Fetching Pet: \(error), \(error.userInfo)")
+        }
+    }
+    
+    //Edit Button
+    private func showEditButton() {
+        
+        //If objs can fetch any results and this result is != NIL, go ahead...
+        guard let objs = fetchedRC.fetchedObjects else {return}
+        
+        if objs.count > 0 {
+            navigationItem.leftBarButtonItem = editButtonItem
         }
     }
 	
@@ -122,7 +136,34 @@ class PetsViewController: UIViewController {
 //		collectionView.insertItems(at: [index])
 //		// Call closure
 //		petAdded()
+        
+        
+        
 	}
+    
+    //MARK: - Gesture Recognizer
+    
+    private func pressToDelete() {
+        let gesture = UILongPressGestureRecognizer(target: self, action: #selector(deleteCell(sender:)))
+        collectionView.addGestureRecognizer(gesture)
+        gesture.delegate = self
+    }
+    
+    @objc func deleteCell(sender: UILongPressGestureRecognizer) {
+        
+        if sender.state != .ended {
+            return
+        }
+
+        let point = sender.location(in: self.collectionView)
+        if let indexPath = self.collectionView.indexPathForItem(at: point) {
+            let pet = self.fetchedRC.object(at: indexPath)
+            self.context.delete(pet)
+            self.appDelegate.saveContext()
+            self.refresh()
+            self.collectionView.deleteItems(at: [indexPath])
+        }
+    }
 }
 
 //MARK: - Collection View Delegates
