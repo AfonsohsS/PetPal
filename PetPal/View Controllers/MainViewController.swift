@@ -124,7 +124,7 @@ class MainViewController: UIViewController {
 //        let index = IndexPath(row:friends.count - 1, section:0)
 //        collectionView?.insertItems(at: [index])
         
-        //With this code we sort the data every time we add a new data
+        //You don't need this because now you are using the Feteched Results Controller Delegate. But you don’t forget to set the delegate for your fetched results controller in the refresh() method.
         refresh()
         collectionView.reloadData()
         showEditButton()
@@ -166,6 +166,7 @@ class MainViewController: UIViewController {
         do {
             
             fetchedRC = NSFetchedResultsController(fetchRequest: request, managedObjectContext: context, sectionNameKeyPath: #keyPath(Friend.eyeColor), cacheName: nil)
+//            fetchedRC.delegate = self
             try fetchedRC.performFetch()
             //Commented this line to add code to create NSFetchedResultsController
 //            friends = try context.fetch(request)
@@ -319,3 +320,25 @@ fileprivate func convertFromUIImagePickerControllerInfoKeyDictionary(_ input: [U
 fileprivate func convertFromUIImagePickerControllerInfoKey(_ input: UIImagePickerController.InfoKey) -> String {
 	return input.rawValue
 }
+
+////MARK: - Fetched Results Controller Delegate
+//
+//extension MainViewController: NSFetchedResultsControllerDelegate {
+//
+//    func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>, didChange anObject: Any, at indexPath: IndexPath?, for type: NSFetchedResultsChangeType, newIndexPath: IndexPath?) {
+//
+//        let index = indexPath ?? (newIndexPath ?? nil)
+//        guard let cellIndex = index else {
+//            return
+//        }
+//
+//        switch type {
+//        case .insert:
+//            collectionView.insertItems(at: [cellIndex])
+//        case .delete:
+//            collectionView.deleteItems(at: [cellIndex])
+//        default:
+//            break
+//        }
+//    }
+//}

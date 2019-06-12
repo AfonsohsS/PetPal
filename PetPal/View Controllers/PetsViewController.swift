@@ -66,7 +66,7 @@ class PetsViewController: UIViewController, UIGestureRecognizerDelegate {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         refresh()
-        showEditButton()
+
     }
 
     // MARK:- Private Methods
@@ -86,6 +86,7 @@ class PetsViewController: UIViewController, UIGestureRecognizerDelegate {
         request.sortDescriptors = [sort]
         do {
             fetchedRC = NSFetchedResultsController(fetchRequest: request, managedObjectContext: context, sectionNameKeyPath: nil, cacheName: nil)
+            fetchedRC.delegate = self
             try fetchedRC.performFetch()
         } catch let error as NSError {
             print("Error Fetching Pet: \(error), \(error.userInfo)")
@@ -123,8 +124,9 @@ class PetsViewController: UIViewController, UIGestureRecognizerDelegate {
         //Save context
         appDelegate.saveContext()
         
-        refresh()
-        collectionView.reloadData()
+        //You don't need this because now you are using the Feteched Results Controller Delegate. But you don’t forget to set the delegate for your fetched results controller in the refresh() method.
+//        refresh()
+//        collectionView.reloadData()
         
         
 //        var pet = PetData()
@@ -161,7 +163,9 @@ class PetsViewController: UIViewController, UIGestureRecognizerDelegate {
             self.context.delete(pet)
             self.appDelegate.saveContext()
             self.refresh()
-            self.collectionView.deleteItems(at: [indexPath])
+            
+            //You don't need this because now you are using the Feteched Results Controller Delegate. But you don’t forget to set the delegate for your fetched results controller in the refresh() method.
+//            self.collectionView.deleteItems(at: [indexPath])
         }
     }
 }
@@ -270,4 +274,26 @@ fileprivate func convertFromUIImagePickerControllerInfoKeyDictionary(_ input: [U
 // Helper function inserted by Swift 4.2 migrator.
 fileprivate func convertFromUIImagePickerControllerInfoKey(_ input: UIImagePickerController.InfoKey) -> String {
 	return input.rawValue
+}
+
+//MARK: - Fetched Results Controller Delegate
+
+extension PetsViewController: NSFetchedResultsControllerDelegate {
+    
+    func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>, didChange anObject: Any, at indexPath: IndexPath?, for type: NSFetchedResultsChangeType, newIndexPath: IndexPath?) {
+        
+        let index = indexPath ?? (newIndexPath ?? nil)
+        guard let cellIndex = index else {
+            return
+        }
+        
+        switch type {
+        case .insert:
+            collectionView.insertItems(at: [cellIndex])
+        case .delete:
+            collectionView.deleteItems(at: [cellIndex])
+        default:
+            break
+        }
+    }
 }
