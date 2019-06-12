@@ -13,6 +13,7 @@
 		1446404022AABAD000F419E5 /* PetPal.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 1446403E22AABAD000F419E5 /* PetPal.xcdatamodeld */; };
 		1446404322AABEC400F419E5 /* Friend+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1446404122AABEC400F419E5 /* Friend+CoreDataClass.swift */; };
 		1446404722AAC58A00F419E5 /* Controller+CoreData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1446404622AAC58A00F419E5 /* Controller+CoreData.swift */; };
+		14C7FA1222B07C1800FED288 /* CloudKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 14C7FA1122B07C1800FED288 /* CloudKit.framework */; };
 		DD6B333C1F56DAD800F4C248 /* PetsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD6B333B1F56DAD800F4C248 /* PetsViewController.swift */; };
 		DD6B33401F56E05F00F4C248 /* FriendData.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD6B333F1F56E05F00F4C248 /* FriendData.swift */; };
 		DD6B33421F56E1A900F4C248 /* PetData.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD6B33411F56E1A900F4C248 /* PetData.swift */; };
@@ -35,6 +36,8 @@
 		1446403F22AABAD000F419E5 /* PetPal.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = PetPal.xcdatamodel; sourceTree = "<group>"; };
 		1446404122AABEC400F419E5 /* Friend+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "Friend+CoreDataClass.swift"; path = "PetPal/Data/Friend+CoreDataClass.swift"; sourceTree = "<group>"; };
 		1446404622AAC58A00F419E5 /* Controller+CoreData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Controller+CoreData.swift"; sourceTree = "<group>"; };
+		14C7FA0F22B07C0D00FED288 /* PetPal.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = PetPal.entitlements; sourceTree = "<group>"; };
+		14C7FA1122B07C1800FED288 /* CloudKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CloudKit.framework; path = System/Library/Frameworks/CloudKit.framework; sourceTree = SDKROOT; };
 		DD6B333B1F56DAD800F4C248 /* PetsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PetsViewController.swift; sourceTree = "<group>"; };
 		DD6B333F1F56E05F00F4C248 /* FriendData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendData.swift; sourceTree = "<group>"; };
 		DD6B33411F56E1A900F4C248 /* PetData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PetData.swift; sourceTree = "<group>"; };
@@ -57,6 +60,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				14C7FA1222B07C1800FED288 /* CloudKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -73,6 +77,14 @@
 			);
 			name = SubClassData;
 			path = ../..;
+			sourceTree = "<group>";
+		};
+		14C7FA1022B07C1800FED288 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				14C7FA1122B07C1800FED288 /* CloudKit.framework */,
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 		DD6B333A1F56DA4200F4C248 /* Resources */ = {
@@ -102,6 +114,7 @@
 			children = (
 				DD952D631F56D8AA00AF81B8 /* PetPal */,
 				DD952D621F56D8AA00AF81B8 /* Products */,
+				14C7FA1022B07C1800FED288 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -116,6 +129,7 @@
 		DD952D631F56D8AA00AF81B8 /* PetPal */ = {
 			isa = PBXGroup;
 			children = (
+				14C7FA0F22B07C0D00FED288 /* PetPal.entitlements */,
 				DD952D641F56D8AA00AF81B8 /* AppDelegate.swift */,
 				DD952D781F56D95300AF81B8 /* Cells */,
 				DD952D771F56D94300AF81B8 /* Data */,
@@ -384,9 +398,11 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = PetPal/PetPal.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 33SVN5UKMP;
 				INFOPLIST_FILE = PetPal/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.example.afonsohs.PetPal;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -399,9 +415,11 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = PetPal/PetPal.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 33SVN5UKMP;
 				INFOPLIST_FILE = PetPal/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.example.afonsohs.PetPal;
 				PRODUCT_NAME = "$(TARGET_NAME)";

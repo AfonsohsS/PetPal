@@ -2,19 +2,23 @@
 <model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="14838.16" systemVersion="19A471t" minimumToolsVersion="Automatic" sourceLanguage="Swift" usedWithCloudKit="NO" userDefinedModelVersionIdentifier="">
     <entity name="Friend" representedClassName=".Friend" syncable="YES">
         <attribute name="address" attributeType="String"/>
-        <attribute name="dob" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
-        <attribute name="eyeColor" optional="YES" attributeType="Transformable"/>
+        <attribute name="dob" attributeType="Date" usesScalarValueType="NO"/>
+        <attribute name="eyeColor" attributeType="Transformable"/>
         <attribute name="name" attributeType="String"/>
-        <attribute name="photo" optional="YES" attributeType="Binary" allowsExternalBinaryDataStorage="YES"/>
-        <relationship name="pets" toMany="YES" deletionRule="Cascade" destinationEntity="Pet" inverseName="owner" inverseEntity="Pet"/>
+        <attribute name="photo" attributeType="Binary" allowsExternalBinaryDataStorage="YES"/>
+        <relationship name="pets" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="Pet" inverseName="owner" inverseEntity="Pet"/>
     </entity>
     <entity name="Pet" representedClassName=".Pet" syncable="YES">
-        <attribute name="dob" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
+        <attribute name="dob" attributeType="Date" usesScalarValueType="NO"/>
         <attribute name="kind" attributeType="String"/>
         <attribute name="name" attributeType="String"/>
-        <attribute name="picture" optional="YES" attributeType="Binary" allowsExternalBinaryDataStorage="YES"/>
-        <relationship name="owner" maxCount="1" deletionRule="Nullify" destinationEntity="Friend" inverseName="pets" inverseEntity="Friend"/>
+        <attribute name="picture" attributeType="Binary" allowsExternalBinaryDataStorage="YES"/>
+        <relationship name="owner" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Friend" inverseName="pets" inverseEntity="Friend"/>
     </entity>
+    <configuration name="Cloud" usedWithCloudKit="YES">
+        <memberEntity name="Friend"/>
+        <memberEntity name="Pet"/>
+    </configuration>
     <elements>
         <element name="Friend" positionX="-54" positionY="-9" width="128" height="133"/>
         <element name="Pet" positionX="149.94140625" positionY="64.28515625" width="128" height="118"/>
